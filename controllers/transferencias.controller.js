@@ -8,8 +8,8 @@ export const transferenciaAll = async (req, res) => {
 
 
 export const transferenciasMonto = async (req, res) => {
-    const {emisor, receptor, monto, fecha } = req.body
-    const response = await TRANSFERENCIAS.create(emisor, receptor, monto, fecha)
+    const { emisor, receptor, monto, fecha } = req.body
+    const response = await TRANSFERENCIAS.create( emisor, receptor, monto, fecha)
     if (!response.ok){
         return res.status(500).json(response)
     }
