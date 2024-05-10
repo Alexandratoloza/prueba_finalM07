@@ -23,7 +23,7 @@ const create  = async (emisor, receptor, monto, fecha) => {
     if(!usuario2) throw new error ("fallo la transacción")
 
     const query ={ 
-        text: "INSERT INTO TRANSFERENCIAS (emisor, receptor, monto, fecha) VALUES ($1, $2, $3, $4) RETURNING *",
+        text: "INSERT INTO TRANSFERENCIAS (emisor, receptor, monto, fecha) VALUES ($1, $2, $3, $4)",
         values: [emisor, receptor, monto, fecha]
     }
 
@@ -53,8 +53,8 @@ const create  = async (emisor, receptor, monto, fecha) => {
 
 export const TRANSFERENCIAS = {
     
-    findAll,
     create,
+    findAll
    
 }
 

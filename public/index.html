@@ -202,10 +202,12 @@
     try {
       const { data } = await axios.put(
         `http://localhost:3000/api/v1/usuarios?id=${id}`,
+        
         {
           nombre,
           balance,
         }
+
       );
       $("#exampleModal").modal("hide");
       location.reload();
@@ -219,7 +221,6 @@
     let nombre = $("form:first input:first").val();
     let balance = Number($("form:first input:nth-child(2)").val());
 
-    console.log(nombre, balance)
    try {
       const response = await fetch("http://localhost:3000/api/v1/usuarios", {
         method: "post",
@@ -253,7 +254,7 @@
         method: "post",
         headers: {
           "Content-Type": "application/json",
-        },
+        }, 
         body: JSON.stringify({
           emisor,
           receptor,
