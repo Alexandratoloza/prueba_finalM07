@@ -47,10 +47,15 @@ const create  = async (emisor, receptor, monto, fecha) => {
 
 
 
+
+
+
+
 export const TRANSFERENCIAS = {
     
     findAll,
-    create
+    create,
+   
 }
 
 

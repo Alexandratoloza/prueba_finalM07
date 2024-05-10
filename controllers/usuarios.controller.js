@@ -21,10 +21,12 @@ export const getUsuarios = async (req, res) => {
 }
 
 export const createUsuarios = async (req, res) => {
+
     try {
         const { nombre } = req.body;
 
         const { balance } = req.body
+        console.log(nombre, balance)
         const nuevoUsuario = await Usuarios.create(nombre, balance)
 
         res.json(nuevoUsuario);

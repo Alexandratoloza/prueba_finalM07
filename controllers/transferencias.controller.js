@@ -15,3 +15,4 @@ export const transferenciasMonto = async (req, res) => {
     }
     return res.json(response)
 }
+

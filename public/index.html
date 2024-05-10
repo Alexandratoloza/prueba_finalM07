@@ -197,6 +197,8 @@
   const editUsuario = async (id) => {
     const nombre = $("#nombreEdit").val();
     const balance = $("#balanceEdit").val();
+
+    
     try {
       const { data } = await axios.put(
         `http://localhost:3000/api/v1/usuarios?id=${id}`,
@@ -216,9 +218,14 @@
     e.preventDefault();
     let nombre = $("form:first input:first").val();
     let balance = Number($("form:first input:nth-child(2)").val());
-    try {
+
+    console.log(nombre, balance)
+   try {
       const response = await fetch("http://localhost:3000/api/v1/usuarios", {
         method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           nombre,
           balance,
@@ -229,7 +236,7 @@
       location.reload();
     } catch (e) {
       alert("Algo salió mal ..." + e);
-    }
+    } 
   });
 
   $("form:last").submit(async (e) => {
@@ -244,6 +251,9 @@
     try {
       const response = await fetch("http://localhost:3000/api/v1/transferencias", {
         method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           emisor,
           receptor,

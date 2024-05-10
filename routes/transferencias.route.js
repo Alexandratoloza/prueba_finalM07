@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {transferenciaAll, transferenciasMonto } from '../controllers/transferencias.controller.js'
+import {transferenciaAll, transferenciasMonto, } from '../controllers/transferencias.controller.js'
 
 
 const router = Router()
