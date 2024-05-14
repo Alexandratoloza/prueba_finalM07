@@ -1,34 +1,42 @@
-import { text } from 'express'
+
 import {pool} from '../database/connection.js'
-import { Usuarios } from './usuarios.model.js'
 
 
 const findAll  = async () => {
-
-    const { rows } = await pool.query( "SELECT * FROM TRANSFERENCIAS")
-    return rows
-    }   
-
+        const { rows } = await pool.query(
+            "SELECT t.id AS transferencia_id, t.emisor, u_emisor.nombre AS nombre_emisor, " +
+            "t.receptor, u_receptor.nombre AS nombre_receptor, t.monto, t.fecha " +
+            "FROM transferencias t " +
+            "JOIN usuarios u_emisor ON t.emisor = u_emisor.id " +
+            "JOIN usuarios u_receptor ON t.receptor = u_receptor.id"
+        );
+     return rows
+    }
 
  
-const create  = async (emisor, receptor, monto, fecha) => {
+const create  = async (emisor, receptor, monto ) => {
+
+const query = { 
+    text: 'INSERT INTO TRANSFERENCIAS (emisor, receptor, monto ) VALUES ( $1, $2, $3)',
+    values: [emisor, receptor, monto]
+}
+
+const query2 = { 
+    text: 'update usuarios set balance = balance - $1 where id = $2',
+    values: [monto, emisor]
+}
+
+const query3 ={
+    text: 'update usuarios set balance = balance + $1 where id = $2',
+    values: [monto, receptor]
+}
+
  try{
 
     await pool.query("BEGIN")
-
-    const usuario1 = await Usuarios.update(emisor, -monto, fecha)
-    if(!usuario1) throw new error ("fallo la transacción")
-
-    const usuario2 = await Usuarios.update(receptor, monto, fecha)
-    if(!usuario2) throw new error ("fallo la transacción")
-
-    const query ={ 
-        text: "INSERT INTO TRANSFERENCIAS (emisor, receptor, monto, fecha) VALUES ($1, $2, $3, $4)",
-        values: [emisor, receptor, monto, fecha]
-    }
-
     const { rows } = await pool.query(query)
-
+    await pool.query(query2);
+    await pool.query(query3);
     await pool.query("COMMIT")
     return {
         ok: true,
@@ -46,16 +54,9 @@ const create  = async (emisor, receptor, monto, fecha) => {
  }
 
 
-
-
-
-
-
 export const TRANSFERENCIAS = {
     
-    create,
-    findAll
-   
+    findAll,
+    create
+
 }
-
-

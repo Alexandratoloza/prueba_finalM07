@@ -1,10 +1,10 @@
 import { Router } from "express";
-import {transferenciaAll, transferenciasMonto, } from '../controllers/transferencias.controller.js'
+import { transferenciaControlers } from '../controllers/transferencias.controller.js';
 
 
-const router = Router()
 
-router.get ('/', transferenciaAll)
-router.post('/', transferenciasMonto)
+export const router = Router()
 
-export default router
+router.get ('/transferencias', transferenciaControlers.transferenciaAll)
+router.post('/transferencias', transferenciaControlers.createTransferencia)
+export default router;

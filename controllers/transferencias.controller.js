@@ -1,18 +1,32 @@
-import { TRANSFERENCIAS } from "../models/transferencias.model.js";
+import {TRANSFERENCIAS} from "../models/transferencias.model.js";
 
-export const transferenciaAll = async (req, res) => {
-
-    const transferencias = await TRANSFERENCIAS.findAll()
-    return res.json(transferencias)
-}
+const transferenciaAll = async () => {
 
 
-export const transferenciasMonto = async (req, res) => {
-    const { emisor, receptor, monto, fecha } = req.body
-    const response = await TRANSFERENCIAS.create( emisor, receptor, monto, fecha)
-    if (!response.ok){
-        return res.status(500).json(response)
+    try{
+
+        const usuarios = usuarios.TRANSFERENCIAS.findAll()
+        return res.json(usuarios)
+
+    }catch(error) {
+        console.log(error)
+        res.status(500).json({ error: 'Error interno del servidor'})
     }
-    return res.json(response)
 }
 
+
+const createTransferencia = async (req, res) =>{
+    try {
+        const {emisor, receptor, monto} = req.body
+        const transferencia = await TRANSFERENCIAS.create(emisor, receptor, monto)
+        return res.json(transferencia) 
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Error interno del servidor'})
+    }
+}
+
+export const transferenciaControlers = {
+    transferenciaAll,
+    createTransferencia
+}
